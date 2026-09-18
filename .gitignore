@@ -1,0 +1,8 @@
+.env
+go.work
+go.work.sum
+*.test
+*.out
+*.coverprofile
+*.so
+*.dylib
