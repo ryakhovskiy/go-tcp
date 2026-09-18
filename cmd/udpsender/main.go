@@ -32,7 +32,7 @@ func main() {
 		}
 		_, err = conn.Write([]byte(line))
 		if nil != err {
-			fmt.Printf("<ERROR> Error sending data over to remote host: %v\n        Try again\n")
+			fmt.Printf("<ERROR> Error sending data over to remote host: %v\n        Try again\n", err)
 			continue
 		}
 	}
