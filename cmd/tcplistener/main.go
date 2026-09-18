@@ -42,7 +42,7 @@ func getLinesChannel(f io.ReadCloser) <-chan string {
 	go func() {
 		defer close(lines)
 		for {
-			i, err := io.ReadFull(f, buff)
+			i, err := io.Reader.Read(f, buff)
 			totalBytesRead += i
 			if errors.Is(err, io.EOF) {
 				break
@@ -58,7 +58,7 @@ func getLinesChannel(f io.ReadCloser) <-chan string {
 			}
 			newLineIndex := bytes.IndexByte(buff, '\n')
 			if newLineIndex == -1 {
-				currentLine += string(buff)
+				currentLine += string(buff[:i])
 			} else {
 				currentLine += string(buff[:newLineIndex])
 				lines <- currentLine
