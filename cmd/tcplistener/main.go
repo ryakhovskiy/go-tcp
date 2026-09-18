@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"ryakhovskiy/httpfromtcp/internal/request"
 )
 
 const port = ":42069"
@@ -26,10 +27,17 @@ func main() {
 		}
 		defer conn.Close()
 		fmt.Println("connection accepted")
-		linesCh := getLinesChannel(conn)
-		for elem := range linesCh {
-			fmt.Printf("read: %s\n", elem)
+		//linesCh := getLinesChannel(conn)
+		req, err := request.RequestFromReader(conn)
+		if nil != err {
+			fmt.Print(err)
+			return
 		}
+		fmt.Println("Request line:")
+		fmt.Printf("- Method: %s\n", req.RequestLine.Method)
+		fmt.Printf("- Target: %s\n", req.RequestLine.RequestTarget)
+		fmt.Printf("- Version: %s\n", req.RequestLine.HttpVersion)
+
 		fmt.Println("connection closed")
 	}
 }
