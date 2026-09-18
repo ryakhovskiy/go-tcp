@@ -45,6 +45,7 @@ func getLinesChannel(f io.ReadCloser) <-chan string {
 			i, err := io.Reader.Read(f, buff)
 			totalBytesRead += i
 			if errors.Is(err, io.EOF) {
+				lines <- currentLine
 				break
 			}
 			if errors.Is(err, io.ErrUnexpectedEOF) {
